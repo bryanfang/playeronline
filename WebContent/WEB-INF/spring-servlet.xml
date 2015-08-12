@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+   xmlns:context="http://www.springframework.org/schema/context"
+   xmlns:mvc="http://www.springframework.org/schema/mvc"
+   xmlns:tx="http://www.springframework.org/schema/tx"
+   xmlns:aop="http://www.springframework.org/schema/aop"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="
+   http://www.springframework.org/schema/beans     
+   http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+   http://www.springframework.org/schema/mvc 
+   http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd  
+   http://www.springframework.org/schema/tx 
+   http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+   http://www.springframework.org/schema/aop 
+   http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+   http://www.springframework.org/schema/context 
+   http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+   <!-- 注解驱动方式 -->
+   <mvc:annotation-driven />
+   <!-- 采用扫描整个包的方式加载需要的类 -->
+   <context:annotation-config />  
+    
+   <!-- 把标记了@Controller注解的类转换为bean -->     
+   <context:component-scan base-package="com.playeronline.controller" />     
+  	
+  	 <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->     
+      <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />     
+        
+        
+        <!-- HandlerMapping -->
+ 		<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+ 		
+       <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->     
+	   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	      <property name="prefix" value="/" /><!-- prefix 可以指定页面所在的路径，比如/WEB-INF/ -->
+	      <property name="suffix" value=".jsp" />
+	   </bean>    
+           
+       <bean id="multipartResolver"     
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+          	<property name="defaultEncoding" value="utf-8" />    
+       </bean> 
+          
+ 	<!-- 加入mvc:resources指定静态内容，同时需要在schema中添上xmlns:mvc="http://www.springframework.org/schema/mvc" -->
+ 	<mvc:resources mapping="/ui/**" location="/UI/" />
+ 	
+ 	
+</beans>
